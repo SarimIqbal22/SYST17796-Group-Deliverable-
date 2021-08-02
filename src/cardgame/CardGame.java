@@ -17,60 +17,126 @@ public class CardGame {
 
    
     public static void main(String[] args) {
+        Player p1 = new Player(CardHandGenerator.generateHand(26));
+        Player p2 = new Player(CardHandGenerator.generateHand(26));
         
-        Scanner input= new Scanner(System.in);
-        Card[] hand=CardHandGenerator.generateHand(7);
-        
-        //print entire hand
-        System.out.println("Hand of 7 cards:");
-        
-        for(Card card:hand)
-        {
-            System.out.println(card.getValue()+" of "+ card.getSuit());
+       System.out.println(p1.toString());
+       System.out.println(p2.toString());
+    }
+    
+    // In the event of a tie, this method will be called to resolve it. 
+    // It will loop through the next cards in each players' deck until two cards that do not have the same value have been pulled. 
+    //When that happens, the winner will take all cards played in the tiebreaker.
+    public static void tiebreaker(Card[] player1Cards, Card[] player2Cards) {
+        int i = 1;
+        while (true) {
+            i++;
+           if (compareCards(player1Cards[i].getValue(), player2Cards[i].getValue()) == 1) {
+               break;
+           }
+           else if (compareCards(player1Cards[i].getValue(), player2Cards[i].getValue()) == 2) {
+               break;
+           }
         }
+
+    }
+    
+    // Returns 1 if player 1 won the turn. Returns 2 if player 2 won the turn. Returns 0 in the event of a tie.
+    public static int compareCards(Value player1Card, Value player2Card) {
         
-        //user input for a card
+        int p1value = 0;
+        int p2value = 0;
         
-        System.out.println("Enter suit for your card: ");
-        for(int i=0; i<Suit.values().length;i++)
-        {
-            System.out.println((i+1)+": "+ Suit.values()[i]);
-        }
-        int suitPos=input.nextInt()-1;
+        // These two switch statements assign the cards their actual numerical value, so that they can be compared.
         
-        System.out.println("Enter a value : " );
-      //  int value=input.nextInt();
-         for(int i=0; i<Value.values().length;i++)
-        {
-            System.out.println((i+1)+": "+ Value.values()[i]);
-        }
-         
-         int valuePos=input.nextInt()-1;
-         
-        Card userCard=new Card(Value.values()[valuePos],Suit.values()[suitPos]);
-        
-        
-        //match user card within hand of 7 cards
-        
-        boolean flag=false;
-        for(Card card:hand)
-        {
-            if(card.getValue()==userCard.getValue() && card.getSuit().equals(userCard.getSuit()))
-            {
-               flag=true;
-                
+        switch(player1Card) {
+            case ACE:
+                p1value = 13;
                 break;
-            }
-          
-            
+            case KING:
+                p1value = 12;
+                break;
+            case QUEEN:
+                p1value = 11;
+                break;
+            case JACK:
+                p1value = 10;
+                break;
+            case TEN:
+                p1value = 9;
+                break;
+            case NINE:
+                p1value = 8;
+                break;
+            case EIGHT:
+                p1value = 7;
+                break;
+            case SEVEN:
+                p1value = 6;
+                break;
+            case SIX:
+                p1value = 5;
+                break;
+            case FIVE:
+                p1value = 4;
+                break;
+            case FOUR:
+                p1value = 3;
+                break;
+            case THREE:
+                p1value = 2;
+                break;
+            case TWO:
+                p1value = 1;
+                break; 
         }
-        if(flag==true)
-            System.out.println("your card is matched!!");
-        else
-             System.out.println("Sorry no match found..");
         
+        switch(player2Card) {
+            case ACE:
+                p2value = 13;
+                break;
+            case KING:
+                p2value = 12;
+                break;
+            case QUEEN:
+                p2value = 11;
+                break;
+            case JACK:
+                p2value = 10;
+                break;
+            case TEN:
+                p2value = 9;
+                break;
+            case NINE:
+                p2value = 8;
+                break;
+            case EIGHT:
+                p2value = 7;
+                break;
+            case SEVEN:
+                p2value = 6;
+                break;
+            case SIX:
+                p2value = 5;
+                break;
+            case FIVE:
+                p2value = 4;
+                break;
+            case FOUR:
+                p2value = 3;
+                break;
+            case THREE:
+                p2value = 2;
+                break;
+            case TWO:
+                p2value = 1;
+                break; 
+        }
         
+        if (p1value > p2value) return 1;
+        else if (p1value < p2value) return 2;
+        else return 0;
         
     }
-
+    
 }
