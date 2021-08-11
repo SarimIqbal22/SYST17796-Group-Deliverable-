@@ -10,5 +10,5 @@ package cardgame;
  * @author meghapatel
  */
 public enum Suit {
-     HEARTS,CLUBS, DIAMONDS, SPADES
+     NULL, HEARTS, CLUBS, DIAMONDS, SPADES
 }
