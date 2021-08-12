@@ -21,20 +21,45 @@ public class CardGame {
         Player p2 = new Player(CardHandGenerator.generateHand(26));
         
        System.out.println(p1.toString());
-       System.out.println(p2.toString());
+       //System.out.println(p2.toString());
+       
+       System.out.println("");
+       
+       System.out.println(p1.drawCard());
+       System.out.println(p1.drawCard());
+       System.out.println(p1.drawCard());
+       System.out.println(p1.drawCard());
+       
+       System.out.println("");
+       
+       System.out.println(p1.toString());
+       
+       //Start game
+       
+       //Loop through rounds
+       
+           //check for tiebreaker
+           
+           //convert winnings to each player
+    }
+    
+    public static void playTurn(){
+        
     }
     
     // In the event of a tie, this method will be called to resolve it. 
     // It will loop through the next cards in each players' deck until two cards that do not have the same value have been pulled. 
     //When that happens, the winner will take all cards played in the tiebreaker.
-    public static void tiebreaker(Card[] player1Cards, Card[] player2Cards) {
+    public static void tiebreaker(Player p1, Player p2) {
         int i = 1;
         while (true) {
             i++;
-           if (compareCards(player1Cards[i].getValue(), player2Cards[i].getValue()) == 1) {
+           //p1 Wins
+           if (compareCards(p1.drawCard().getValue(), p2.drawCard().getValue()) == 1) {
                break;
            }
-           else if (compareCards(player1Cards[i].getValue(), player2Cards[i].getValue()) == 2) {
+           //p2 Wins
+           else if (compareCards(p1.drawCard().getValue(), p2.drawCard().getValue()) == 2) {
                break;
            }
         }

@@ -54,5 +54,12 @@ public class Card {
         this.suit = suit;
     }
 
+    public String toString(){
+        String ts = "";
+        
+        ts = ts + "Card: " + this.getValue() + " of " + this.getSuit() + "; ";
+ 
+        return ts;
+    }
     
 }

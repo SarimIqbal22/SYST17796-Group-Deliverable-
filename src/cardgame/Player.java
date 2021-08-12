@@ -28,6 +28,10 @@ public class Player {
         this.deck = deck;
     }
     
+    public void addDeckBottom(Card card){
+    
+    }
+    
     public Card[] getWinnings() {
         return winnings;
     }
@@ -36,11 +40,25 @@ public class Player {
         this.winnings = winnings;
     }
     
+    public Card drawCard(){
+        //According to the rules of the game, the card will always be drawn from the top. (Index 0) in this case
+        Card drawn = this.deck[0];
+        Card[] temp = new Card[this.deck.length - 1];
+
+        for (int i = 0; i < this.deck.length - 1; i ++){
+            temp[i] = this.deck[i+1];
+        }
+        
+        setDeck(temp);
+ 
+        return drawn;
+    }
+    
     public String toString() {
         String ts = "";
         
         for (int i = 0; i < deck.length; i++) {
-            ts = ts + "Card " + i + ": " + deck[i].getValue() + " of " + deck[i].getSuit() + "; ";
+            ts = ts + "Card " + i + ": " + deck[i].getValue() + " of " + deck[i].getSuit() + "; \n";
         }
         
         return ts;
@@ -54,10 +72,10 @@ public class Player {
             newDeck[i].setValue(winnings[i].getValue());
         }
                         
-    }
-    
+    }  
     
     return newDeck;
+    }
 }
         
     
