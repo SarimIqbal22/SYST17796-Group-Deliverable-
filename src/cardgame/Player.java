@@ -29,7 +29,15 @@ public class Player {
     }
     
     public void addDeckBottom(Card card){
-    
+        Card[] temp = new Card[this.deck.length + 1];
+        
+        for (int i = 0; i < this.deck.length; i ++){
+            temp[i] = this.deck[i];
+        }
+        
+        temp[this.deck.length] = card;
+
+        setDeck(temp);
     }
     
     public Card[] getWinnings() {
@@ -43,12 +51,13 @@ public class Player {
     public Card drawCard(){
         //According to the rules of the game, the card will always be drawn from the top. (Index 0) in this case
         Card drawn = this.deck[0];
+        
         Card[] temp = new Card[this.deck.length - 1];
 
         for (int i = 0; i < this.deck.length - 1; i ++){
             temp[i] = this.deck[i+1];
         }
-        
+
         setDeck(temp);
  
         return drawn;
@@ -76,8 +85,7 @@ public class Player {
     
     return newDeck;
     }
+    
 }
         
     
-    
-}

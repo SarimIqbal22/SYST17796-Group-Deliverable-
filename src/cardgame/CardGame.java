@@ -8,6 +8,7 @@ package cardgame;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,50 +18,105 @@ public class CardGame {
 
    
     public static void main(String[] args) {
+        //generate hands
         Player p1 = new Player(CardHandGenerator.generateHand(26));
         Player p2 = new Player(CardHandGenerator.generateHand(26));
         
-       System.out.println(p1.toString());
-       //System.out.println(p2.toString());
+        Scanner nextTurn = new Scanner(System.in);
+        
+        
+        //System.out.println(p1.toString());
+        //System.out.println(p2.toString());
+        
+        //tiebreaker(p1, p2);
        
-       System.out.println("");
-       
-       System.out.println(p1.drawCard());
-       System.out.println(p1.drawCard());
-       System.out.println(p1.drawCard());
-       System.out.println(p1.drawCard());
-       
-       System.out.println("");
-       
-       System.out.println(p1.toString());
-       
-       //Start game
-       
-       //Loop through rounds
-       
-           //check for tiebreaker
-           
-           //convert winnings to each player
+        //System.out.println(p1.toString());
+        //System.out.println(p2.toString());
+        //Start game
+        
+        System.out.println("Please enter the letter 'n' to start the game!");
+        String input = nextTurn.next();
+        
+        int p1count = 26;
+        int p2count = 26;
+        
+        while(input != "n" || input != "q"){
+        //Loop through rounds
+            playTurn(p1, p2);
+            p1count = p1.getDeck().length;
+            p2count = p2.getDeck().length;
+            System.out.printf("Player 1 current has %d cards. Player 2 currently has %d cards \n", p1count, p2count);
+            if (p1count == 52){
+                System.out.println("Player 1 has won all the cards! This game is over.");
+                break;
+            }
+            else if (p2count == 52){
+                System.out.println("Player 2 has won all the cards! This game is over.");
+                break;
+            }
+            System.out.println("Please enter the letter 'n' to proceed!\n");
+            input = nextTurn.next();
+        }
     }
     
-    public static void playTurn(){
+    public static void playTurn(Player p1, Player p2){
+        ArrayList<Card> cards = new ArrayList<Card>();
+        //Both players draw a card
+        Card c1 = p1.drawCard();
+        Card c2 = p2.drawCard();
         
+        cards.add(c1);
+        cards.add(c2);
+        
+        System.out.printf("Player 1 draws a %s, Player 2 draws a %s\n", c1.getValue(), c2.getValue());
+        //compare card values;
+        int result = compareCards(c1.getValue(), c2.getValue());
+        
+        //compare cards and handle tie result
+        if (result == 1){
+            System.out.println("PLAYER 1 wins the cards!");
+            cards.forEach(c -> p1.addDeckBottom(c));
+        }
+        else if (result == 2){
+            System.out.println("PLAYER 2 wins the cards!");
+            cards.forEach(c -> p1.addDeckBottom(c));
+        }
+        else if (result == 0){
+            tiebreaker(p1, p2, cards);
+        }
     }
     
     // In the event of a tie, this method will be called to resolve it. 
     // It will loop through the next cards in each players' deck until two cards that do not have the same value have been pulled. 
     //When that happens, the winner will take all cards played in the tiebreaker.
-    public static void tiebreaker(Player p1, Player p2) {
-        int i = 1;
+    public static void tiebreaker(Player p1, Player p2, ArrayList<Card> cards) {
+        System.out.println("WAR! More cards will be drawn!");
+        
         while (true) {
-            i++;
+            Card c1 = p1.drawCard();
+            Card c2 = p2.drawCard();
+        
+            cards.add(c1);
+            cards.add(c2);
+            
+            System.out.printf("Player 1 draws a %s, Player 2 draws a %s\n", c1.getValue(), c2.getValue());
+            
+            int result = compareCards(c1.getValue(), c2.getValue());
            //p1 Wins
-           if (compareCards(p1.drawCard().getValue(), p2.drawCard().getValue()) == 1) {
+           if (result == 1) {
+               //if p1 ends, add the 2 cards to his
+               System.out.println("PLAYER 1 wins the cards!");
+               cards.forEach(c -> p1.addDeckBottom(c));
                break;
            }
            //p2 Wins
-           else if (compareCards(p1.drawCard().getValue(), p2.drawCard().getValue()) == 2) {
+           else if (result == 2) {
+               System.out.println("PLAYER 2 wins the cards!");
+               cards.forEach(c -> p2.addDeckBottom(c));
                break;
+           }
+           else if (result == 0){
+               System.out.println("Another draw! More cards will be drawn...");
            }
         }
 
