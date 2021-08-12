@@ -23,23 +23,13 @@ public class CardGame {
         Player p2 = new Player(CardHandGenerator.generateHand(26));
         
         Scanner nextTurn = new Scanner(System.in);
-        
-        
-        //System.out.println(p1.toString());
-        //System.out.println(p2.toString());
-        
-        //tiebreaker(p1, p2);
-       
-        //System.out.println(p1.toString());
-        //System.out.println(p2.toString());
-        //Start game
-        
+  
         System.out.println("Please enter the letter 'n' to start the game!");
         String input = nextTurn.next();
         
         int p1count = 26;
         int p2count = 26;
-        
+        //Start game
         while(input != "n" || input != "q"){
         //Loop through rounds
             playTurn(p1, p2);
